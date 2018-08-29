@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import cn.itblacklist.bean.User;
-import cn.itblacklist.dao.UserDaoImpl;
+import cn.itblacklist.dao.impl.UserDaoImpl;
 
 public class ServletDemo3 extends HttpServlet {
 
