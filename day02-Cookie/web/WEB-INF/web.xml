@@ -21,21 +21,34 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
                       http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0"
-         metadata-complete="true">
+         metadata-complete="false">
 
     <display-name>Welcome to Tomcat</display-name>
     <description>
         Welcome to Tomcat
     </description>
+
+    <!-- 多个url -->
     <servlet>
-        <servlet-name>servletDemo4</servlet-name>
-        <servlet-class>cn.itblacklist.cookie.ServletDemo4</servlet-class>
+        <servlet-name>servletDemo1</servlet-name>
+        <servlet-class>cn.itblacklist.servlet.ServletDemo1</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>servletDemo4</servlet-name>
+        <servlet-name>servletDemo1</servlet-name>
         <url-pattern>/test1</url-pattern>
         <url-pattern>/test2</url-pattern>
     </servlet-mapping>
+
+    <!-- 通配符 -->
+    <servlet>
+        <servlet-name>servletDemo2</servlet-name>
+        <servlet-class>cn.itblacklist.servlet.ServletDemo2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>servletDemo2</servlet-name>
+        <url-pattern>/system/*</url-pattern>
+    </servlet-mapping>
+
 
 
 </web-app>
