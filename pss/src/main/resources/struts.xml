@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+
+    <package name="default" namespace="/" extends="struts-default">
+		
+		<!-- 
+			单独配置一个Action，而且必需配置在*_*上面
+		 -->
+		 <action name="main_*" class="mainAction" method="{1}">
+		 	<result>/WEB-INF/views/main.jsp</result>
+		 	<result name="right">/WEB-INF/views/main_right.jsp</result>
+		 </action>
+		 
+		<!-- 
+			一个通用的CRUDAction(根据这个规则可以满足相应的CRUD功能)
+			通用的Action一定写在最下面
+		 -->
+		<action name="*_*" class="{1}Action" method="{2}">
+			<result>/WEB-INF/views/{1}/{1}_list.jsp</result>
+			<result name="input">/WEB-INF/views/{1}/{1}_input.jsp</result>
+			<result name="reload" type="redirectAction">{1}</result>
+		</action>
+       
+    </package>
+
+
+</struts>
