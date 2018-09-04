@@ -1,5 +1,8 @@
 package cn.itblacklist.pss.repository;
 
+import cn.itblacklist.pss.domain.Employee;
+import cn.itblacklist.pss.page.PageList;
+import cn.itblacklist.pss.query.BaseQuery;
 import org.hibernate.jpa.QueryHints;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
@@ -41,10 +44,56 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         return query.getResultList();
     }
 
+    /**
+     *
+     * @param baseQuery
+     * @return
+     */
+    @Override
+    public PageList<T> findPageByQuery(BaseQuery baseQuery) {
+        System.out.println(baseQuery.getCountJpql());
+        System.out.println(baseQuery.getResultJpql());
+        System.out.println(baseQuery.getParamsList());
+
+//         1. 查询总条数
+        Query query = entityManager.createQuery(baseQuery.getCountJpql());
+//         2. 把Query中的问题值加上去
+//              注意：由于接受的是可变参数（我们不直接传List，而需要把它变成数组传递）
+        builderJpaParameter(query, baseQuery.getParamsList().toArray());
+//         1.3 执行方法
+//         hibernate4之后，把count返回的值变成了Long
+        Long totalCount = (Long) query.getSingleResult();
+//        2. 如果总条数为0，说明没有拿到数据，返回一个空的pageList
+        if (totalCount <= 0){
+            return new PageList<>();
+        }
+//        3. 如果总条数>0， 我们就去哪当前页的数据
+        PageList<T> pageList = new PageList<>(baseQuery.getCurrentPage(), baseQuery.getPageSize(), totalCount.intValue());
+//        3.1 新建query对象
+        query = entityManager.createQuery(baseQuery.getResultJpql());
+//        3.2 设置query参数
+        builderJpaParameter(query, baseQuery.getParamsList().toArray());
+        /**
+         * JPQL设置分页
+         *  query.setFirstResult()
+         *  query.setMaxResults()
+         */
+        int firstResult = (pageList.getCurrentPage()-1)*pageList.getPageSize();
+        int maxResults = pageList.getPageSize();
+//        jpq中规定setFirstResult不能为负数或0
+        query.setFirstResult(firstResult).setMaxResults(maxResults);
+//        3.3 执行这条sql
+        List<Employee> result = query.getResultList();
+//        3.4 把值放到PageList中
+        pageList.setResult(result);
+
+        return pageList;
+    }
+
     // 设置查询参数
     private void builderJpaParameter(Query query, Object... values) {
         if (values != null) {
-            // jpa索引从1开始
+//             jpa索引从1开始
             for (int i = 0; i < values.length; i++) {
                 query.setParameter(i + 1, values[i]);
             }

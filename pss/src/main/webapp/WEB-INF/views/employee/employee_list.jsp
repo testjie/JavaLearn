@@ -1,16 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
-<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 <html>
 <head>
     <title>Title</title>
-    <%@ include file="/WEB-INF/views/common/head.jsp"%>
+    <%@ include file="/WEB-INF/views/common/head.jsp" %>
 
 </head>
 <body>
+
+<s:form action="/employee" id="domainForm" >
 <div class="main-content">
     <div class="breadcrumbs" id="breadcrumbs">
         <script type="text/javascript">
-            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
         </script>
 
         <ul class="breadcrumb">
@@ -28,7 +33,8 @@
         <div class="nav-search" id="nav-search">
             <form class="form-search">
 								<span class="input-icon">
-									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off">
+									<input type="text" placeholder="Search ..." class="nav-search-input"
+                                           id="nav-search-input" autocomplete="off">
 									<i class="icon-search nav-search-icon"></i>
 								</span>
             </form>
@@ -37,7 +43,9 @@
 
     <div class="page-content">
         <div class="page-header">
-            高级查询位置：
+            用户名：<s:textfield name="baseQuery.username"/>
+            邮箱：<s:textfield name="baseQuery.email"/>
+            <button class="btn btn-pink">查询</button>
         </div><!-- /.page-header -->
 
         <div class="row">
@@ -68,23 +76,23 @@
                                 </thead>
 
                                 <tbody>
-                                <s:iterator value="emps">
-                                <tr>
-                                    <td class="center">
-                                        <label>
-                                            <input type="checkbox" class="ace">
-                                            <span class="lbl"></span>
-                                        </label>
-                                    </td>
+                                <s:iterator value="pageList.result">
+                                    <tr>
+                                        <td class="center">
+                                            <label>
+                                                <input type="checkbox" class="ace">
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </td>
 
-                                    <td>头像</td>
-                                    <td>${username}</td>
-                                    <td>${password}</td>
-                                    <td>${email}</td>
-                                    <td>年龄</td>
-                                    <td>部门</td>
+                                        <td>头像</td>
+                                        <td>${username}</td>
+                                        <td>${password}</td>
+                                        <td>${email}</td>
+                                        <td>年龄</td>
+                                        <td>部门</td>
 
-                                    <td>
+                                        <td>
                                             <button class="btn btn-xs btn-info">
                                                 <i class="icon-edit bigger-120"></i>
                                             </button>
@@ -92,19 +100,22 @@
                                             <button class="btn btn-xs btn-danger">
                                                 <i class="icon-trash bigger-120"></i>
                                             </button>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
                                 </s:iterator>
 
                                 </tbody>
                             </table>
+                            <%@ include file="/WEB-INF/views/common/page.jsp" %>
+
                         </div><!-- /.table-responsive -->
                     </div><!-- /span -->
+
                 </div><!-- /row -->
             </div>
         </div>
     </div>
 </div>
-
+</s:form>
 </body>
 </html>

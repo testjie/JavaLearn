@@ -1,5 +1,7 @@
 package cn.itblacklist.pss.service.impl;
 
+import cn.itblacklist.pss.page.PageList;
+import cn.itblacklist.pss.query.BaseQuery;
 import cn.itblacklist.pss.repository.BaseRepository;
 import cn.itblacklist.pss.service.IBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,11 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements IBa
     @Override
     public List findCacheByJpql(String jpql ,Object...values){
         return baseRepository.findCacheByJpql(jpql, values);
+    }
+
+    @Override
+    public PageList<T> findPageByQuery(BaseQuery baseQuery) {
+        return baseRepository.findPageByQuery(baseQuery);
     }
 }
 

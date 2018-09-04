@@ -1,5 +1,7 @@
 package cn.itblacklist.pss.repository;
 
+import cn.itblacklist.pss.page.PageList;
+import cn.itblacklist.pss.query.BaseQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -24,4 +26,6 @@ public interface BaseRepository<T, ID extends Serializable> extends JpaRepositor
     List findByJpql(String jpql, Object... values);
 
     List findCacheByJpql(String cacheJpql, Object... values);
+
+    PageList<T> findPageByQuery(BaseQuery baseQuery);
 }
